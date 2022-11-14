@@ -1,0 +1,4 @@
+.vagrant
+__pycache__
+mdblog/__pycache__
+ubuntu-xenial-16.04-cloudimg-console.log
