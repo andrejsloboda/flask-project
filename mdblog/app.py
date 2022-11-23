@@ -37,7 +37,6 @@ class ArticleForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired()])
     content = TextAreaField("Content")
 
-
 ## CONTROLLERS
 @flask_app.route("/")
 def view_welcome_page():
