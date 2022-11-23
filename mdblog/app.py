@@ -14,7 +14,8 @@ from wtforms import TextAreaField
 from wtforms.validators import InputRequired
 
 from .models import db
-from .models import Article, User
+from .models import Article
+from .models import User
 
 import os
 
