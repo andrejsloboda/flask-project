@@ -1,12 +1,21 @@
 {% extends "_main.jinja" %}
 
-{% block title %} Error {% endblock %}
+{% block title %} Error! {% endblock %}
 
 {% block main %}
-    <div class="internal_error">
-        <p>
-        Oooops! Error occured. Sorry, unknown error occured. Please contant the admin. 
-        <a href"mailto:support@blabla.sk">support</a>
-        </p>
+<div class="row ">
+    <div class="col-md-12">
+        <div class="error-template">
+            <h1>Oops!</h1>
+            <h2>500 Error occured</h2>
+            <div class="error-details">
+                Sorry, unknown error occured.
+            </div>
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary btn-lg"> Home </a>
+                <a href="mailto:admin@blabla.sk" class="btn btn-default btn-lg"> Support </a>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}
