@@ -30,11 +30,13 @@ def view_admin():
             articles=paginate.items,
             paginate=paginate)
 
+
 @admin.route("/articles/new/", methods=["GET"])
 @login_required
 def view_add_article():
     form = ArticleForm()
     return render_template("mod_admin/article_editor.jinja", form=form)
+
 
 @admin.route("/articles/", methods=["POST"])
 @login_required
@@ -43,7 +45,8 @@ def add_article():
     if add_form.validate():
         new_article = Article(
                 title = add_form.title.data,
-                content = add_form.content.data)
+                content = add_form.content.data,
+                html_render = add_form.html_render.data)
         db.session.add(new_article)
         db.session.commit()
         flash("Article was saved", "alert-success")
@@ -75,6 +78,7 @@ def edit_article(art_id):
         if edit_form.validate():
             article.title = edit_form.title.data
             article.content = edit_form.content.data
+            article.html_render = edit_form.html_render.data
             db.session.add(article)
             db.session.commit()
             flash("Edit saved", "alert-success")
@@ -84,10 +88,12 @@ def edit_article(art_id):
                 flash("{} is missing".format(error), "alert-danger")
             return redirect(url_for("admin.view_login"))
 
+        
 @admin.route("/login/", methods=["GET"])
 def view_login():
     login_form = LoginForm()
     return render_template("mod_admin/login.jinja", form=login_form)
+
 
 @admin.route("/login/", methods=["POST"])
 def login_user():
@@ -106,11 +112,13 @@ def login_user():
             flash("{} is missing".format(error), "alert-danger")
         return redirect(url_for("admin.view_login"))
 
+    
 @admin.route("/changepassword/", methods=["GET"])
 @login_required
 def view_change_password():
     form = ChangePasswordForm()
     return render_template("mod_admin/change_password.jinja", form=form)
+
 
 @admin.route("/changepassword/", methods=["POST"])
 @login_required
@@ -132,6 +140,7 @@ def change_password():
             flash("{} is missing".format(error), "alert-danger")
         return render_template("mod_admin/change_password.jinja", form=form)
 
+    
 @admin.route("/logout/", methods=["POST"])
 @login_required
 def logout_user():
