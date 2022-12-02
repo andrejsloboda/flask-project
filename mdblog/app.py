@@ -1,20 +1,22 @@
 from flask import Flask
 from flask import render_template
 from .models import db
+from .mod_main.forms import NewsletterForm
 
 from .mod_main import main
 from .mod_blog import blog 
 from .mod_admin import admin
-
-
 import os
+
 
 flask_app = Flask(__name__)
 flask_app.config.from_pyfile("/vagrant/configs/default.py")
 
+
 if "MDBLOG_CONFIG" in os.environ:
     flask_app.config.from_envvar("MDBLOG_CONFIG")
 
+    
 db.init_app(flask_app)
 
 
@@ -31,6 +33,11 @@ def internal_server_error(error):
 @flask_app.errorhandler(404)
 def internal_server_error(error):
     return render_template("errors/404.jinja"), 404
+
+
+@flask_app.context_processor
+def inject_newsletter_form():
+    return dict(newsletter_form = NewsletterForm())
 
 
 def init_db(app):
