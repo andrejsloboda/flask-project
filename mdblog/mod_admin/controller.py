@@ -13,12 +13,11 @@ from mdblog.models import User
 from .forms import ArticleForm
 from .forms import ChangePasswordForm
 from .forms import LoginForm
-
 from .utils import login_required
 
+from mdblog.tasks import notify_newsletter
 
 admin = Blueprint("admin", __name__)
-
 
 @admin.route("/")
 @login_required
@@ -50,7 +49,12 @@ def add_article():
         db.session.add(new_article)
         db.session.commit()
         flash("Article was saved", "alert-success")
-        return redirect(url_for("blog.view_articles"))
+        
+        article_url = url_for("blog.view_article", art_id=new_article.id)
+        article_url = request.url_root + article_url[1:]
+        notify_newsletter.delay(article_url)
+
+        return redirect(url_for("blog.view_articles", art_id=new_article.id))
     else:
         for error in add_form.errors:
             flash("{} is required".format(error), "alert-danger")
