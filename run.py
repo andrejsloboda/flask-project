@@ -1,5 +1,5 @@
-from mdblog.app import flask_app
-from mdblog.app import init_db
+from mdblog.cli import flask_app
+from mdblog.cli import init_db
 
 import sys
 
@@ -8,8 +8,10 @@ def start():
     host = "0.0.0.0"
     flask_app.run(host, debug=debug)
 
-def init():
+
+def init():   
     init_db(flask_app)
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
